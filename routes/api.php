@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\BillController;
+use App\Http\Controllers\Api\v1\CategoryController;
 use App\Http\Controllers\Api\v1\GroupController;
 use App\Http\Controllers\Api\v1\UserController;
 use Illuminate\Support\Facades\Route;
@@ -25,5 +26,9 @@ Route::group(['prefix' => 'v1'], function(){
 
     Route::resource('bills', BillController::class)
         ->except(['edit', 'create'])
+        ->middleware('auth:api');
+
+    Route::resource('categories', CategoryController::class)
+        ->only(['index'])
         ->middleware('auth:api');
 });

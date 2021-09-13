@@ -13,9 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory(1)->create([
-            'email' => 'gui@hehe.com',
-            'password' => bcrypt('123123123'),
+        $this->call([
+            CategorySeeder::class,
         ]);
     }
 }
