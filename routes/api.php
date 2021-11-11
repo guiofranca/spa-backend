@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'v1'], function(){
     Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function(){
         Route::get('/', [UserController::class, 'user'])->middleware('auth:api');
-        Route::post('/', [UserController::class, 'updateProfile'])->middleware('auth:api');
+        Route::patch('/', [UserController::class, 'updateProfile'])->middleware('auth:api');
         Route::patch('/activegroup', [UserController::class, 'setActiveGroup'])->middleware('auth:api');
     });
 

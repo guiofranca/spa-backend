@@ -15,21 +15,15 @@ class Group extends Model
         'owner_id',
     ];
 
-    public function users()
-    {
-        return $this->belongsToMany(User::class, 'user_group');
+    public function groupMembers(){
+        return $this->hasMany(GroupMember::class);
     }
 
-    public function owner()
-    {
-        return $this->belongsTo(User::class, 'owner_id');
-    }
-
-    public function hasUser(User $user){
-        return $this->users()->where('id', $user->id)->get()->isNotEmpty();
+    public function hasMember(User $user){
+        return $this->groupMembers()->where('user_id', $user->id)->get()->isNotEmpty();
     }
 
     public function userIsOwner(User $user){
-        return $this->owner_id == $user->getKey();
+        return $this->owner_id === $user->getKey();
     }
 }
