@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\v1\CreateGroupInvitationRequest;
-use App\Http\Requests\Api\v1\UpdateGroupInvitationRequest;
+use App\Http\Requests\Api\v1\GroupInvitation\CreateGroupInvitationRequest;
+use App\Http\Requests\Api\v1\GroupInvitation\UpdateGroupInvitationRequest;
 use App\Models\GroupInvitation;
+use App\Models\GroupMember;
 use Illuminate\Http\Request;
 
 class GroupInvitationController extends Controller
@@ -23,7 +24,8 @@ class GroupInvitationController extends Controller
         return response()->json([
             'message' => 'Invitation Created',
             'url' => config('app.url') . "/invite/{$groupInvitation->token}",
-        ], 200);
+            'token' => $groupInvitation->token,
+        ], 201);
     }
 
     /**
@@ -60,7 +62,11 @@ class GroupInvitationController extends Controller
         $groupInvitation->update($request->validated());
 
         if($request->input('accepted')) {
-            $groupInvitation->group->users()->syncWithoutDetaching(auth()->id());
+            GroupMember::create([
+                'group_id' => $groupInvitation->group_id,
+                'user_id' => auth()->id(),
+                'contribution' => 100,
+            ]);
         }
 
         return response()->json([

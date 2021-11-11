@@ -26,9 +26,13 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         try {
+            $http = new Client();
             // TODO: This should be removed in production since it is a security measure
             // Without this it crashes on local development
-            $http = new Client(['verify' => false]);
+            if(config('app.env') != 'production')
+            {
+                $http = new Client(['verify' => false]);
+            }
 
             $client = DB::table('oauth_clients')->where('password_client', 1)->first();
 

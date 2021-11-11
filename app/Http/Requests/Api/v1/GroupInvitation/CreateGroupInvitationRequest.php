@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Api\v1;
+namespace App\Http\Requests\Api\v1\GroupInvitation;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Group;

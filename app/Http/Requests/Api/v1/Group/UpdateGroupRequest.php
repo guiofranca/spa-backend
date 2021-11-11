@@ -13,7 +13,7 @@ class UpdateGroupRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->group->owner_id == $this->user()->getKey();
+        return true;
     }
 
     /**

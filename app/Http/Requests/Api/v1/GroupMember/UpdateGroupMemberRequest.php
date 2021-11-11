@@ -1,18 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Api\v1;
+namespace App\Http\Requests\Api\v1\GroupMember;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateGroupInvitationRequest extends FormRequest
+class UpdateGroupMemberRequest extends FormRequest
 {
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'user_id' => $this->user()->getKey(),
-        ]);
-    }
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -20,7 +13,7 @@ class UpdateGroupInvitationRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->group->userIsOwner($this->user());
     }
 
     /**
@@ -31,8 +24,7 @@ class UpdateGroupInvitationRequest extends FormRequest
     public function rules()
     {
         return [
-            'accepted' => ['required', 'boolean'],
-            'user_id' => ['required'],
+            'contribution' => ['required', 'integer'],
         ];
     }
 }

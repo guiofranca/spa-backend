@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\Bill\CreateBillRequest;
 use App\Http\Requests\Api\v1\Bill\UpdateBillRequest;
+use App\Http\Resources\Api\v1\BillResource;
+use App\Http\Resources\Api\v1\BillResourceCollection;
 use App\Models\Bill;
 use Illuminate\Http\Request;
 
@@ -17,11 +19,11 @@ class BillController extends Controller
      */
     public function index()
     {
-        return Bill::query()
+        return new BillResourceCollection(Bill::query()
             ->where('group_id', auth()->user()->active_group_id)
             ->whereNull('settle_id')
-            ->with('user:id,name', 'category:id,name,icon')
-            ->get();
+            ->with('user', 'category')
+            ->get());
     }
 
     /**
@@ -34,10 +36,14 @@ class BillController extends Controller
     {
         $bill = Bill::create($request->validated());
 
-        return response()->json([
-            'message' => 'Bill successfully created',
-            'bill' => $bill->load(['category:id,name,icon', 'user:id,name'])
-        ], 201);
+        $bill->load(['category', 'user']);
+
+        return (new BillResource($bill))
+            ->additional([
+                'message' => 'Group sucessfully created',
+            ])
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -48,7 +54,9 @@ class BillController extends Controller
      */
     public function show(Bill $bill)
     {
-        return response()->json(['bill' => $bill]);
+        $bill->load(['category', 'user']);
+
+        return new BillResource($bill);
     }
 
     /**
@@ -62,10 +70,12 @@ class BillController extends Controller
     {
         $bill->update($request->validated());
 
-        return response()->json([
-            'message' => 'Bill successfully updated',
-            'bill' => $bill->load(['category:id,name,icon', 'user:id,name'])
-        ], 200);
+        $bill->load(['category', 'user']);
+
+        return (new BillResource($bill))
+            ->additional([
+                'message' => 'Group sucessfully created',
+            ]);
     }
 
     /**

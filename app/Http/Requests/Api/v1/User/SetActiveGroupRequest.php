@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api\v1\User;
 
 use App\Models\Group;
+use App\Models\GroupMember;
 use DB;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -15,7 +16,7 @@ class SetActiveGroupRequest extends FormRequest
      */
     public function authorize()
     {
-        return DB::table('user_group')
+        return GroupMember::query()
             ->where('user_id', $this->user()->getKey())
             ->where('group_id', $this->active_group_id)
             ->exists();

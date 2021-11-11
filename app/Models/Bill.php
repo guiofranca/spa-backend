@@ -42,6 +42,6 @@ class Bill extends Model
     }
 
     public function isOwner(User $user){
-        return $this->user_id == $user->getKey();
+        return $this->user_id === $user->getKey();
     }
 }

@@ -13,7 +13,7 @@ class UpdateProfileRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->check();
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class UpdateProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['nullable', 'min:3'],
+            'name' => ['required', 'min:3'],
             'email' => ['nullable', 'email', 'unique:users,email,'.auth()->id().',id'],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
         ];

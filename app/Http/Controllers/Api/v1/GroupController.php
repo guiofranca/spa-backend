@@ -7,10 +7,20 @@ use App\Http\Requests\Api\v1\Group\CreateGroupRequest;
 use App\Http\Requests\Api\v1\Group\DeleteGroupRequest;
 use App\Http\Requests\Api\v1\Group\ShowGroupRequest;
 use App\Http\Requests\Api\v1\Group\UpdateGroupRequest;
+use App\Http\Resources\Api\v1\GroupResource;
+use App\Http\Resources\Api\v1\GroupResourceCollection;
 use App\Models\Group;
+use App\Models\GroupMember;
+use Illuminate\Http\Request;
 
 class GroupController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Group::class, 'group');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,14 +28,12 @@ class GroupController extends Controller
      */
     public function index()
     {
-        return Group::query()
-            ->join('user_group', 'user_group.group_id', 'groups.id')
-            ->where('user_group.user_id', auth()->id())
+        return new GroupResourceCollection(Group::query()
+            ->join('group_members as gm', 'gm.group_id', 'groups.id')
+            ->where('gm.user_id', auth()->id())
             ->select('groups.*')
-            ->with(['users' => function($q){
-                $q->select(['name', 'id']);
-            }])
-            ->get();
+            ->with(['groupMembers.user'])
+            ->get());
     }
 
     /**
@@ -42,15 +50,18 @@ class GroupController extends Controller
             'owner_id' => auth()->id()
         ]);
 
-        $group->users()->attach([auth()->id()]);
-        $group->load(['users' => function($q){
-            $q->select(['name', 'id']);
-        }]);
+        GroupMember::create([
+            'user_id' => auth()->id(),
+            'group_id' => $group->id,
+            'contribution' => 100,
+        ]);
         
-        return response()->json([
-            'message' => 'Group sucessfully created', 
-            'group' => $group
-        ], 201);
+        return (new GroupResource($group))
+            ->additional([
+                'message' => 'Group sucessfully created',
+            ])
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -59,12 +70,9 @@ class GroupController extends Controller
      * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
-    public function show(ShowGroupRequest $request, Group $group)
+    public function show(Request $request, Group $group)
     {
-        $group->load(['users' => function($q){
-            $q->select(['name', 'id']);
-        }]);
-        return response()->json($group);
+        return new GroupResource($group->load('groupMembers.user'));
     }
 
     /**
@@ -77,14 +85,12 @@ class GroupController extends Controller
     public function update(UpdateGroupRequest $request, Group $group)
     {
         $group->update($request->validated());
-        $group->load(['users' => function($q){
-            $q->select(['name', 'id']);
-        }]);
+        $group->load('groupMembers.user');
 
-        return response()->json([
-            'message' => 'Group sucessfully updated',
-            'group' => $group,
-        ], 200);
+        return (new GroupResource($group))
+            ->additional([
+                'message' => 'Group sucessfully updated',
+            ]);
     }
 
     /**
@@ -93,7 +99,7 @@ class GroupController extends Controller
      * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DeleteGroupRequest $request, Group $group)
+    public function destroy(Request $request, Group $group)
     {
         $group->delete();
 
