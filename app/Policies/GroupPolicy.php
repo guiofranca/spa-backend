@@ -53,7 +53,7 @@ class GroupPolicy
      */
     public function update(User $user, Group $group)
     {
-        return $group->userIsOwner($user);
+        return $group->isOwnedBy($user);
     }
 
     /**
@@ -65,6 +65,6 @@ class GroupPolicy
      */
     public function delete(User $user, Group $group)
     {
-        return $group->userIsOwner($user);
+        return $group->isOwnedBy($user);
     }
 }

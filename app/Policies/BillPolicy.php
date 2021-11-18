@@ -53,7 +53,7 @@ class BillPolicy
      */
     public function update(User $user, Bill $bill)
     {
-        return $bill->isOwner($user);
+        return $bill->isOwnedBy($user);
     }
 
     /**
@@ -65,7 +65,7 @@ class BillPolicy
      */
     public function delete(User $user, Bill $bill)
     {
-        return $bill->isOwner($user);
+        return $bill->isOwnedBy($user);
     }
 
     /**

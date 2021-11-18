@@ -15,6 +15,12 @@ class Group extends Model
         'owner_id',
     ];
 
+    protected $catst = [
+        'name' => 'string',
+        'description' => 'string',
+        'owner_id' => 'integer',
+    ];
+
     public function groupMembers(){
         return $this->hasMany(GroupMember::class);
     }
@@ -23,7 +29,7 @@ class Group extends Model
         return $this->groupMembers()->where('user_id', $user->id)->get()->isNotEmpty();
     }
 
-    public function userIsOwner(User $user){
-        return $this->owner_id === $user->getKey();
+    public function isOwnedBy(User $user){
+        return $this->owner_id == $user->id;
     }
 }

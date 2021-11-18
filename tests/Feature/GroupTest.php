@@ -46,10 +46,10 @@ class GroupTest extends TestCase
             ->assertJsonCount(1, 'data');
             
         $g = Group::factory()->create([
-            'owner_id' => $this->user1->getKey()
+            'owner_id' => $this->user1->id
         ]);
         GroupMember::create([
-            'user_id' => $this->user1->getKey(),
+            'user_id' => $this->user1->id,
             'group_id' => $g->id,
             'contribution' => 100,
         ]);
@@ -162,10 +162,10 @@ class GroupTest extends TestCase
     public function create_a_group(User $user): Group
     {
         $g = Group::factory()->create([
-            'owner_id' => $user->getKey()
+            'owner_id' => $user->id
         ]);
         GroupMember::create([
-            'user_id' => $user->getKey(),
+            'user_id' => $user->id,
             'group_id' => $g->id,
             'contribution' => 100,
         ]);
@@ -176,7 +176,7 @@ class GroupTest extends TestCase
     public function invite_to_group(Group $group, User $user): void
     {
         GroupMember::create([
-            'user_id' => $user->getKey(),
+            'user_id' => $user->id,
             'group_id' => $group->id,
             'contribution' => 100,
         ]);

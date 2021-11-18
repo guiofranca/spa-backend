@@ -97,10 +97,10 @@ class GroupInvitationTest extends TestCase
     public function create_a_group(User $user): Group
     {
         $g = Group::factory()->create([
-            'owner_id' => $user->getKey()
+            'owner_id' => $user->id
         ]);
         GroupMember::create([
-            'user_id' => $user->getKey(),
+            'user_id' => $user->id,
             'group_id' => $g->id,
             'contribution' => 100,
         ]);
