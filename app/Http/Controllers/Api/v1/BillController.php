@@ -12,6 +12,10 @@ use Illuminate\Http\Request;
 
 class BillController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Bill::class, 'bill');    
+    }
     /**
      * Display a listing of the resource.
      *
@@ -40,7 +44,7 @@ class BillController extends Controller
 
         return (new BillResource($bill))
             ->additional([
-                'message' => 'Group sucessfully created',
+                'message' => 'Bill sucessfully created',
             ])
             ->response()
             ->setStatusCode(201);

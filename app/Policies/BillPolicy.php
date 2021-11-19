@@ -18,7 +18,7 @@ class BillPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return isset($user->active_group_id);
     }
 
     /**
@@ -30,7 +30,7 @@ class BillPolicy
      */
     public function view(User $user, Bill $bill)
     {
-        //
+        return $user->active_grop_id == $bill->group_id;
     }
 
     /**
@@ -41,7 +41,7 @@ class BillPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -66,29 +66,5 @@ class BillPolicy
     public function delete(User $user, Bill $bill)
     {
         return $bill->isOwnedBy($user);
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Bill  $bill
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, Bill $bill)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Bill  $bill
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, Bill $bill)
-    {
-        //
     }
 }

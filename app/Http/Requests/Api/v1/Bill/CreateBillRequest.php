@@ -9,7 +9,7 @@ class CreateBillRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'user_id' => $this->user()?->getKey(),
+            'user_id' => $this->user()?->id,
             'group_id' => $this->user()?->active_group_id,
         ]);
     }

@@ -13,7 +13,7 @@ class UpdateBillRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->bill->isOwner($this->user());
+        return true;
     }
 
     /**
@@ -24,9 +24,9 @@ class UpdateBillRequest extends FormRequest
     public function rules()
     {
         return [
-            'description' => ['required', 'min:3', 'max:255'],
-            'value' => ['required', 'numeric'],
-            'category_id' => ['required', 'integer', 'exists:categories,id'],
+            'description' => ['sometimes', 'required', 'min:3', 'max:255'],
+            'value' => ['sometimes', 'required', 'numeric'],
+            'category_id' => ['sometimes', 'required', 'integer', 'exists:categories,id'],
             'paid_at' => ['nullable', 'date'],
             'due_at' => ['nullable', 'date'],
         ];
