@@ -4,10 +4,18 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\GroupMember\UpdateGroupMemberRequest;
+use App\Http\Resources\Api\v1\GroupMemberResource;
+use App\Models\GroupMember;
 use Illuminate\Http\Request;
 
 class GroupMemberController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(GroupMember::class, 'group_member');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -68,9 +76,14 @@ class GroupMemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateGroupMemberRequest $request, $id)
+    public function update(UpdateGroupMemberRequest $request, GroupMember $groupMember)
     {
-        //
+        $groupMember->update($request->validated());
+
+        return (new GroupMemberResource($groupMember))
+            ->additional([
+                'message' => 'Group member sucessfully updated',
+            ]);
     }
 
     /**
@@ -79,8 +92,12 @@ class GroupMemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(GroupMember $groupMember)
     {
-        //
+        $groupMember->delete();
+
+        return response()->json([
+            'message' => 'Group Member removed',
+        ]);
     }
 }

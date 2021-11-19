@@ -22,13 +22,7 @@ class GroupResource extends JsonResource
         ]);
 
         $resource['group_members'] = $this->groupMembers->map(function($member){
-            $resource = $member->only([
-                'id',
-                'contribution',
-            ]);
-
-            $resource['name'] = $member->user->name;
-            return $resource;
+            return new GroupMemberResource($member);
         });
 
         return $resource;

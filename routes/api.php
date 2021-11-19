@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\v1\BillController;
 use App\Http\Controllers\Api\v1\CategoryController;
 use App\Http\Controllers\Api\v1\GroupController;
 use App\Http\Controllers\Api\v1\GroupInvitationController;
+use App\Http\Controllers\Api\v1\GroupMemberController;
 use App\Http\Controllers\Api\v1\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,5 +36,9 @@ Route::group(['prefix' => 'v1'], function(){
 
     Route::resource('group_invitation', GroupInvitationController::class)
         ->except(['edit','create'])
+        ->middleware('auth:api');
+    
+    Route::resource('group_members', GroupMemberController::class)
+        ->only(['update', 'destroy'])
         ->middleware('auth:api');
 });

@@ -13,7 +13,7 @@ class UpdateGroupMemberRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->group->userIsOwner($this->user());
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class UpdateGroupMemberRequest extends FormRequest
     public function rules()
     {
         return [
-            'contribution' => ['required', 'integer'],
+            'contribution' => ['required', 'integer', 'between:1,100'],
         ];
     }
 }
