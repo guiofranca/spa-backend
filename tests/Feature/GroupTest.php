@@ -130,6 +130,8 @@ class GroupTest extends TestCase
         $this->actingAs($this->user1)
             ->json('get', '/api/v1/groups/1')
             ->assertStatus(404);
+
+        $this->assertNull($group1->fresh());
     }
 
     public function test_setting_an_active_group()

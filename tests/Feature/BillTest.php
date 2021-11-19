@@ -129,6 +129,8 @@ class BillTest extends TestCase
         $this->actingAs($this->user1)
             ->json('delete', "/api/v1/bills/{$bill->id}")
             ->assertStatus(200);
+        
+        $this->assertNull($bill->fresh());
     }
 
     public function create_a_group(User $user): Group
