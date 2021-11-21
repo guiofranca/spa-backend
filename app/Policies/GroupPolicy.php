@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Group;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class GroupPolicy
 {
@@ -30,7 +31,9 @@ class GroupPolicy
      */
     public function view(User $user, Group $group)
     {
-        return $group->hasMember($user);
+        return $group->hasMember($user)
+            ? Response::allow()
+            : Response::deny("You do not belong to this group");
     }
 
     /**
@@ -53,7 +56,9 @@ class GroupPolicy
      */
     public function update(User $user, Group $group)
     {
-        return $group->isOwnedBy($user);
+        return $group->isOwnedBy($user)
+            ? Response::allow()
+            : Response::deny("You did not created this group");
     }
 
     /**
@@ -65,6 +70,8 @@ class GroupPolicy
      */
     public function delete(User $user, Group $group)
     {
-        return $group->isOwnedBy($user);
+        return $group->isOwnedBy($user)
+            ? Response::allow()
+            : Response::deny("You did not created this group");
     }
 }

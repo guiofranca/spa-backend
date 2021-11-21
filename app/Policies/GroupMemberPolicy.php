@@ -20,7 +20,9 @@ class GroupMemberPolicy
      */
     public function update(User $user, GroupMember $groupMember)
     {
-        return $groupMember->group->isOwnedBy($user);
+        return $groupMember->group->isOwnedBy($user)
+            ? Response::allow()
+            : Response::deny("You can't change the members of a group you do not own");
     }
 
     /**

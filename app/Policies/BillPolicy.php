@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Bill;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class BillPolicy
 {
@@ -18,7 +19,9 @@ class BillPolicy
      */
     public function viewAny(User $user)
     {
-        return isset($user->active_group_id);
+        return isset($user->active_group_id)
+            ? Response::allow()
+            : Response::deny("Please choose a group first");
     }
 
     /**
@@ -41,7 +44,9 @@ class BillPolicy
      */
     public function create(User $user)
     {
-        return true;
+        return isset($user->active_group_id)
+            ? Response::allow()
+            : Response::deny("Please choose a group first");
     }
 
     /**
@@ -53,7 +58,9 @@ class BillPolicy
      */
     public function update(User $user, Bill $bill)
     {
-        return $bill->isOwnedBy($user);
+        return $bill->isOwnedBy($user)
+            ? Response::allow()
+            : Response::deny("You should only edit bills that you created");
     }
 
     /**
@@ -65,6 +72,8 @@ class BillPolicy
      */
     public function delete(User $user, Bill $bill)
     {
-        return $bill->isOwnedBy($user);
+        return $bill->isOwnedBy($user)
+        ? Response::allow()
+        : Response::deny("You should only delete bills that you created");
     }
 }
