@@ -13,7 +13,6 @@ use Database\Seeders\CategorySeeder;
 
 class BillTest extends TestCase
 {
-
     use WithFaker;
     use RefreshDatabase;
 
@@ -51,6 +50,11 @@ class BillTest extends TestCase
             ->json('get', '/api/v1/bills')
             ->assertJsonCount($bills->count(), 'data')
             ->assertStatus(200);
+
+        $this->actingAs($this->user2)
+            ->json('get', '/api/v1/bills')
+            ->assertJsonCount($bills->count(), 'data')
+            ->assertStatus(200);
     }
 
     public function test_user_can_create_bill()
@@ -72,7 +76,7 @@ class BillTest extends TestCase
     {
         $this->actingAs($this->user3)
             ->json('post', '/api/v1/bills', Bill::factory()->make()->toArray())
-            ->assertStatus(422);
+            ->assertStatus(403);
     }
 
     public function test_only_owner_can_edit_bill()
@@ -109,6 +113,10 @@ class BillTest extends TestCase
         $this->actingAs($this->user2)
             ->json('get', "/api/v1/bills/{$bill->id}")
             ->assertStatus(403);
+
+        $this->actingAs($this->user3)
+            ->json('get', "/api/v1/bills/{$bill->id}")
+            ->assertStatus(403);
     }
 
     public function test_only_owner_can_delete_bill()
@@ -131,6 +139,22 @@ class BillTest extends TestCase
             ->assertStatus(200);
         
         $this->assertNull($bill->fresh());
+    }
+
+    public function test_bills_are_deleted_when_group_is_deleted()
+    {
+        $bills = Bill::factory(8)->create([
+            'user_id' => $this->user1->id,
+            'group_id' => $this->user1->active_group_id,
+        ]);
+
+        $this->assertCount(8, Bill::where('group_id', $this->user1->active_group_id)->get());
+
+        $this->actingAs($this->user1)
+            ->json('delete', "/api/v1/groups/{$this->user1->active_group_id}")
+            ->assertStatus(200);
+        
+        $this->assertCount(0, Bill::where('group_id', $this->user1->active_group_id)->get());
     }
 
     public function create_a_group(User $user): Group

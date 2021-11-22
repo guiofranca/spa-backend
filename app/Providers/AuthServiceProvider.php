@@ -22,6 +22,7 @@ class AuthServiceProvider extends ServiceProvider
         Group::class => GroupPolicy::class,
         Bill::class => BillPolicy::class,
         GroupMember::class => GroupMemberPolicy::class,
+        Settle::class => SettlePolicy::class,
     ];
 
     /**

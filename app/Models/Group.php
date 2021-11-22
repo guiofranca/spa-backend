@@ -32,4 +32,9 @@ class Group extends Model
     public function isOwnedBy(User $user){
         return $this->owner_id == $user->id;
     }
+
+    public function unsettledBills()
+    {
+        return $this->hasMany(Bill::class)->whereNull('settle_id');
+    }
 }

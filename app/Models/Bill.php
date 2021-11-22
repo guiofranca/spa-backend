@@ -15,6 +15,7 @@ class Bill extends Model
         'user_id',
         'group_id',
         'category_id',
+        'settle_id',
         'paid_at',
         'due_at',
     ];

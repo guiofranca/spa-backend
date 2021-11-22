@@ -22,7 +22,7 @@ class SettleFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->text(50),
         ];
     }
 }

@@ -29,7 +29,7 @@ class BillResource extends JsonResource
         ]);
 
         $resource['user'] = $this->user->only('id', 'name');
-        $resource['category'] = $this->category->only('id', 'name', 'icon');
+        $resource['category'] = new CategoryResource($this->category);
         return $resource;
     }
 }
