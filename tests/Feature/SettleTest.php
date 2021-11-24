@@ -58,7 +58,8 @@ class SettleTest extends TestCase
     
     public function test_only_group_owner_can_create_settles()
     {
-        $this->create_bills($this->user1, 3, 122.35);
+        $this->create_bills($this->user1, 1, 100);
+        $this->create_bills($this->user2, 3, 100);
         $this->actingAs($this->user2)
             ->json('post', '/api/v1/settles', ['name' => 'test settle'])
             ->assertStatus(403)
@@ -158,6 +159,74 @@ class SettleTest extends TestCase
         $this->assertCount(10, $this->user1->active_group->fresh()->unsettledBills);
     }
 
+    public function test_settle_fragments_are_correct()
+    {
+        $this->create_bills($this->user1, 1, 100);
+        $this->create_bills($this->user2, 2, 100);
+
+        $this->actingAs($this->user1)
+            ->json('post', '/api/v1/settles', Settle::factory()->make()->toArray())
+            ->assertStatus(201)
+            ->assertJsonCount(3, 'data.bills')
+            ->assertJsonCount(2, 'data.settleFragments')
+            ->assertJsonPath('data.settleFragments.0.due', '50.00')
+            ->assertJsonPath('data.settleFragments.1.to_receive', '50.00');
+
+        $this->invite_to_group($this->group, $this->user3, 100);
+        $this->user3->active_group_id = $this->group->id;
+
+        $this->create_bills($this->user1, 1, 100);
+        $this->create_bills($this->user2, 2, 100);
+        $this->create_bills($this->user3, 3, 100);
+
+        $this->actingAs($this->user1)
+            ->json('post', '/api/v1/settles', Settle::factory()->make()->toArray())
+            ->assertStatus(201)
+            ->assertJsonCount(6, 'data.bills')
+            ->assertJsonCount(3, 'data.settleFragments')
+            ->assertJsonPath('data.settleFragments.0.due', '100.00')
+            ->assertJsonPath('data.settleFragments.0.to_receive', '0.00')
+            ->assertJsonPath('data.settleFragments.1.due', '0.00')
+            ->assertJsonPath('data.settleFragments.1.to_receive', '0.00')
+            ->assertJsonPath('data.settleFragments.2.due', '0.00')
+            ->assertJsonPath('data.settleFragments.2.to_receive', '100.00');
+    }
+
+    public function test_settle_fragments_are_also_correct()
+    {
+        $this->create_bills($this->user1, 1, 75);
+        $this->create_bills($this->user2, 2, 150);
+
+        $this->actingAs($this->user1)
+            ->json('post', '/api/v1/settles', Settle::factory()->make()->toArray())
+            ->assertStatus(201)
+            ->assertJsonCount(3, 'data.bills')
+            ->assertJsonCount(2, 'data.settleFragments')
+            ->assertJsonPath('data.settleFragments.0.due', '112.50')
+            ->assertJsonPath('data.settleFragments.0.to_receive', '0.00')
+            ->assertJsonPath('data.settleFragments.1.due', '0.00')
+            ->assertJsonPath('data.settleFragments.1.to_receive', '112.50');
+
+        $this->invite_to_group($this->group, $this->user3, 50);
+        $this->user3->active_group_id = $this->group->id;
+
+        $this->create_bills($this->user1, 1, 100);
+        $this->create_bills($this->user2, 2, 100);
+        $this->create_bills($this->user3, 3, 100);
+
+        $this->actingAs($this->user1)
+            ->json('post', '/api/v1/settles', Settle::factory()->make()->toArray())
+            ->assertStatus(201)
+            ->assertJsonCount(6, 'data.bills')
+            ->assertJsonCount(3, 'data.settleFragments')
+            ->assertJsonPath('data.settleFragments.0.due', '140.00')
+            ->assertJsonPath('data.settleFragments.0.to_receive', '0.00')
+            ->assertJsonPath('data.settleFragments.1.due', '40.00')
+            ->assertJsonPath('data.settleFragments.1.to_receive', '0.00')
+            ->assertJsonPath('data.settleFragments.2.due', '0.00')
+            ->assertJsonPath('data.settleFragments.2.to_receive', '180.00');
+    }
+
     protected function create_bills(User $user, int $amount, ?float $value = null): Collection
     {
         $create = [
@@ -189,12 +258,12 @@ class SettleTest extends TestCase
         return $g;
     }
 
-    public function invite_to_group(Group $group, User $user): void
+    public function invite_to_group(Group $group, User $user, int $contribution = 100): void
     {
         GroupMember::create([
             'user_id' => $user->id,
             'group_id' => $group->id,
-            'contribution' => 100,
+            'contribution' => $contribution,
         ]);
     }
 }

@@ -17,6 +17,7 @@ class SettleResource extends JsonResource
         $this->loadMissing('group.groupMembers.user');
         $this->loadMissing('bills.user');
         $this->loadMissing('bills.category');
+        $this->loadMissing('settleFragments.user');
         $resource = $this->only([
             'name',
             'settled',
@@ -24,6 +25,7 @@ class SettleResource extends JsonResource
         ]);
         $resource['group'] = new GroupResource($this->group);
         $resource['bills'] = new BillResourceCollection($this->bills);
+        $resource['settleFragments'] = new SettleFragmentResourceCollection($this->settleFragments);
         return $resource;
         return parent::toArray($request);
     }

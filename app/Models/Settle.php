@@ -30,4 +30,9 @@ class Settle extends Model
     {
         return $this->belongsTo(Group::class);
     }
+
+    public function settleFragments()
+    {
+        return $this->hasMany(SettleFragment::class);
+    }
 }

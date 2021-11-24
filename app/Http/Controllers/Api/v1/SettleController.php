@@ -7,6 +7,7 @@ use App\Http\Requests\Api\v1\Settle\CreateSettleRequest;
 use App\Http\Requests\Api\v1\Settle\UpdateSettleRequest;
 use App\Http\Resources\Api\v1\SettleResource;
 use App\Models\Settle;
+use App\Services\SettlerService;
 
 class SettleController extends Controller
 {
@@ -36,6 +37,8 @@ class SettleController extends Controller
         $settle = Settle::Create($request->validated());
 
         $settle->group->unsettledBills()->update(['settle_id' => $settle->id]);
+
+        SettlerService::makeSettle($settle->loadMissing('bills')->loadMissing('group.groupMembers'));
 
         return (new SettleResource($settle))
             ->additional([

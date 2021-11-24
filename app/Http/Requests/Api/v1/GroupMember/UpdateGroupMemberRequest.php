@@ -24,7 +24,7 @@ class UpdateGroupMemberRequest extends FormRequest
     public function rules()
     {
         return [
-            'contribution' => ['required', 'integer', 'between:1,100'],
+            'contribution' => ['required', 'integer', 'between:0,100'],
         ];
     }
 }
