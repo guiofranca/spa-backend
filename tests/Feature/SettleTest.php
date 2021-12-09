@@ -227,6 +227,25 @@ class SettleTest extends TestCase
             ->assertJsonPath('data.settleFragments.2.to_receive', '180.00');
     }
 
+    public function test_user_can_list_settles()
+    {
+        $this->create_bills($this->user1, 1, 75.01);
+        $this->create_bills($this->user2, 2, 150);
+
+        $this->actingAs($this->user1)
+            ->json('post', '/api/v1/settles', Settle::factory()->make()->toArray())
+            ->assertStatus(201);
+
+        $this->json('get', '/api/v1/settles')
+            ->dd()
+            ->assertStatus(200);
+        
+        
+        $this->actingAs($this->user3)
+            ->json('get', '/api/v1/settles')
+            ->assertStatus(403);
+    }
+
     protected function create_bills(User $user, int $amount, ?float $value = null): Collection
     {
         $create = [

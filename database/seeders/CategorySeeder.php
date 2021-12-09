@@ -22,6 +22,12 @@ class CategorySeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'name' => 'Home',
+                'icon' => 'mdi-home',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'name' => 'Groceries',
                 'icon' => 'mdi-cart',
                 'created_at' => now(),

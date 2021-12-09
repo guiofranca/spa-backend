@@ -19,7 +19,9 @@ class SettlePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->active_group_id != null
+            ? Response::allow()
+            : Response::deny("You need to set an active group");
     }
 
     /**

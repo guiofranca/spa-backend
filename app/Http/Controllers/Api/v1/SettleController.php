@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\Settle\CreateSettleRequest;
 use App\Http\Requests\Api\v1\Settle\UpdateSettleRequest;
 use App\Http\Resources\Api\v1\SettleResource;
+use App\Http\Resources\Api\v1\SettleResourceCollection;
 use App\Models\Settle;
 use App\Services\SettlerService;
 
@@ -23,7 +24,10 @@ class SettleController extends Controller
      */
     public function index()
     {
-        //
+        return new SettleResourceCollection(Settle::query()
+            ->where('group_id', auth()->user()->active_group_id)
+            ->orderBy('id', 'desc')
+            ->get());
     }
 
     /**
@@ -38,7 +42,7 @@ class SettleController extends Controller
 
         $settle->group->unsettledBills()->update(['settle_id' => $settle->id]);
 
-        SettlerService::makeSettle($settle->loadMissing('bills')->loadMissing('group.groupMembers'));
+        SettlerService::makeSettle($settle->loadMissing(['bills','group.groupMembers']));
 
         return (new SettleResource($settle))
             ->additional([

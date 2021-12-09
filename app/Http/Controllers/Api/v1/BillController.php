@@ -27,6 +27,7 @@ class BillController extends Controller
             ->where('group_id', auth()->user()->active_group_id)
             ->whereNull('settle_id')
             ->with('user', 'category')
+            ->orderBy('id', 'desc')
             ->get());
     }
 

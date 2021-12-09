@@ -28,6 +28,8 @@ class BillResource extends JsonResource
             'updated_at',
         ]);
 
+        $resource['value'] = $resource['value'];
+
         $resource['user'] = $this->user->only('id', 'name');
         $resource['category'] = new CategoryResource($this->category);
         return $resource;
