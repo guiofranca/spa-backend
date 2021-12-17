@@ -237,9 +237,7 @@ class SettleTest extends TestCase
             ->assertStatus(201);
 
         $this->json('get', '/api/v1/settles')
-            ->dd()
-            ->assertStatus(200);
-        
+            ->assertStatus(200);        
         
         $this->actingAs($this->user3)
             ->json('get', '/api/v1/settles')
