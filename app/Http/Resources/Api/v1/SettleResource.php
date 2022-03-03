@@ -25,8 +25,8 @@ class SettleResource extends JsonResource
             'date',
         ]);
         $resource['group'] = new GroupResource($this->group);
-        $resource['bills'] = new BillResourceCollection($this->bills);
-        $resource['settleFragments'] = new SettleFragmentResourceCollection($this->settleFragments);
+        $resource['bills'] = BillResource::collection($this->bills);
+        $resource['settleFragments'] = SettleFragmentResource::collection($this->settleFragments);
         $resource['total'] = sprintf('%.2f', $this->bills->sum('value'));
         return $resource;
         return parent::toArray($request);

@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class GroupResourceCollection extends ResourceCollection
 {
-    public $collects = Group::class;
+    public $collects = GroupResource::class;
     /**
      * Transform the resource collection into an array.
      *
@@ -16,8 +16,8 @@ class GroupResourceCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return $this->map(function($group) {
-            return new GroupResource($group);
-        });
+        return [
+            'data' => $this->collection,
+        ];
     }
 }

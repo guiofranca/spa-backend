@@ -6,6 +6,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class SettleFragmentResourceCollection extends ResourceCollection
 {
+    public $collects = SettleFragmentResource::class;
     /**
      * Transform the resource collection into an array.
      *
@@ -14,8 +15,8 @@ class SettleFragmentResourceCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return $this->map(function($settleFragment) {
-            return new SettleFragmentResource($settleFragment);
-        });
+        return [
+            'data' => $this->collection,
+        ];
     }
 }

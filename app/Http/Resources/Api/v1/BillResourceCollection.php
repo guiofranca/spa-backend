@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class BillResourceCollection extends ResourceCollection
 {
-    public $collects = Bill::class;
+    public $collects = BillResource::class;
     /**
      * Transform the resource collection into an array.
      *
@@ -16,8 +16,8 @@ class BillResourceCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return $this->map(function($bill) {
-            return new BillResource($bill);
-        });
+        return [
+            'data' => $this->collection,
+        ];
     }
 }
