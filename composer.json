@@ -52,7 +52,7 @@
             "php artisan clear-compiled",
             "php artisan optimize",
             "chmod -R 777 storage",
-            "php artisan passport:client --passport --no-interaction"
+            "php artisan passport:client --password --no-interaction"
         ]
     },
     "extra": {
