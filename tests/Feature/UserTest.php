@@ -20,6 +20,15 @@ class UserTest extends TestCase
         $this->user = User::factory()->create();
     }
 
+    public function test_user_must_login_correctly()
+    {
+        $this->json('post', '/api/v1/auth/login', ['password' => '123'])
+            ->assertStatus(422);
+
+        $this->json('post', '/api/v1/auth/login', ['email' => 'test@example.com'])
+            ->assertStatus(422);
+    }
+
     public function test_user_can_register()
     {
         $registrationOne = [

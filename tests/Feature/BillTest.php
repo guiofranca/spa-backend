@@ -70,6 +70,10 @@ class BillTest extends TestCase
             ->assertStatus(201)
             ->assertJsonFragment(['group_id' => $this->user2->active_group_id])
             ->assertJsonFragment(['message' => 'Bill sucessfully created']);
+        
+        $this->actingAs($this->user1)
+            ->json('get', '/api/v1/bills/2')
+            ->assertStatus(200);
     }
 
     public function test_user_outside_group_cant_create_bill()

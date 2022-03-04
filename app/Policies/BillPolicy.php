@@ -33,7 +33,7 @@ class BillPolicy
      */
     public function view(User $user, Bill $bill)
     {
-        return $user->active_grop_id == $bill->group_id;
+        return $user->active_group_id == $bill->group_id;
     }
 
     /**
