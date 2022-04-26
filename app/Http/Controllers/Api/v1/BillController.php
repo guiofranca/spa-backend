@@ -8,7 +8,6 @@ use App\Http\Requests\Api\v1\Bill\UpdateBillRequest;
 use App\Http\Resources\Api\v1\BillResource;
 use App\Http\Resources\Api\v1\BillResourceCollection;
 use App\Models\Bill;
-use Illuminate\Http\Request;
 
 class BillController extends Controller
 {
@@ -79,7 +78,7 @@ class BillController extends Controller
 
         return (new BillResource($bill))
             ->additional([
-                'message' => 'Group sucessfully created',
+                'message' => 'Bill sucessfully updated',
             ]);
     }
 

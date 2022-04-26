@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\Api\v1\AuthController;
+//use App\Http\Controllers\Api\v1\AuthController;
+use App\Http\Controllers\Api\v1\AuthJwtController;
 use App\Http\Controllers\Api\v1\BillController;
 use App\Http\Controllers\Api\v1\CategoryController;
 use App\Http\Controllers\Api\v1\GroupController;
 use App\Http\Controllers\Api\v1\GroupInvitationController;
 use App\Http\Controllers\Api\v1\GroupMemberController;
+use App\Http\Controllers\Api\v1\RegisterController;
 use App\Http\Controllers\Api\v1\SettleController;
 use App\Http\Controllers\Api\v1\UserController;
 use Illuminate\Support\Facades\Route;
@@ -16,11 +18,13 @@ Route::group(['prefix' => 'v1'], function(){
         Route::patch('/', [UserController::class, 'updateProfile'])->middleware('auth:api');
         Route::patch('/activegroup', [UserController::class, 'setActiveGroup'])->middleware('auth:api');
     });
-
-    Route::group(['prefix' => 'auth'], function(){
-        Route::post('/login', [AuthController::class, 'login']);
-        Route::post('/logout', [AuthController::class, 'logout']);
-        Route::post('/register', [AuthController::class, 'register']);
+    
+    Route::group(['prefix' => 'auth'], function ($router) {    
+        Route::post('login', [AuthJwtController::class, 'login']);
+        Route::post('logout', [AuthJwtController::class, 'logout']);
+        Route::post('refresh', [AuthJwtController::class, 'refresh']);
+        Route::get('me', [AuthJwtController::class, 'me']);
+        Route::post('register', [RegisterController::class, 'register']);
     });
 
     Route::resource('groups', GroupController::class)

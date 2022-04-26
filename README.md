@@ -43,9 +43,6 @@ $ php artisan key:generate
 # run migrations
 $ php artisan migrate
 
-# install passport
-$ php artisan passport:install
-
 # optimize for production (never for development)
 $ php artisan optimize
 ```
