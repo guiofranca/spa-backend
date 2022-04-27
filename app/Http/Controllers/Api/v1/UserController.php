@@ -13,9 +13,8 @@ class UserController extends Controller
     public function updateProfile(UpdateProfileRequest $request)
     {
         if(
-            $request->has(['current_password', 'password', 'password_confirmation'])
-            && Hash::check($request->current_password, auth()->user()->password)
-        ){
+            $request->has('current_password') && 
+            !Hash::check($request->input('current_password'), auth()->user()->password)){
             return response()->json(['message' => 'Current password does not match.'], 422);
         }
 

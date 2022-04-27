@@ -35,23 +35,12 @@ class AuthJwtController extends Controller
     }
 
     /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function me()
-    {
-        return new UserResource(auth()->user()->load('active_group'));
-    }
-
-    /**
      * Log the user out (Invalidate the token).
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function logout()
     {
-        auth()->invalidate();
         auth()->logout();
 
         return response()->json(['message' => 'Successfully logged out']);

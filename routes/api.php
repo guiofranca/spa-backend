@@ -1,6 +1,5 @@
 <?php
 
-//use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\AuthJwtController;
 use App\Http\Controllers\Api\v1\BillController;
 use App\Http\Controllers\Api\v1\CategoryController;
@@ -14,9 +13,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function(){
     Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function(){
-        Route::get('/', [UserController::class, 'user'])->middleware('auth:api');
-        Route::patch('/', [UserController::class, 'updateProfile'])->middleware('auth:api');
-        Route::patch('/activegroup', [UserController::class, 'setActiveGroup'])->middleware('auth:api');
+        Route::get('/', [UserController::class, 'user']);
+        Route::patch('/', [UserController::class, 'updateProfile']);
+        Route::patch('/activegroup', [UserController::class, 'setActiveGroup']);
     });
     
     Route::group(['prefix' => 'auth'], function ($router) {    
