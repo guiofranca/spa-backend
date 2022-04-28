@@ -9,6 +9,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^9.0",
+        "laravel/telescope": "^4.9",
         "laravel/tinker": "^2.5",
         "tymon/jwt-auth": "^1.0"
     },
@@ -19,8 +20,7 @@
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^6.1",
         "phpunit/php-code-coverage": "^9.2",
-        "phpunit/phpunit": "^9.3.3",
-        "laravel/telescope": "^4.8"
+        "phpunit/phpunit": "^9.3.3"
     },
     "autoload": {
         "psr-4": {
