@@ -19,7 +19,7 @@ Route::group(['prefix' => 'v1'], function(){
     });
     
     Route::group(['prefix' => 'auth'], function ($router) {    
-        Route::post('login', [AuthJwtController::class, 'login']);
+        Route::post('login', [AuthJwtController::class, 'login'])->middleware('throttle:3,10');
         Route::post('logout', [AuthJwtController::class, 'logout']);
         Route::post('refresh', [AuthJwtController::class, 'refresh']);
         Route::get('me', [AuthJwtController::class, 'me']);
