@@ -1,12 +1,12 @@
 <p align="center">
 
-<img src="https://github.com/guiofranca/spa-frontend/raw/master/static/android-chrome-192x192.png" alt="Splitabilly Logo" />
+<img src="https://github.com/guiofranca/spa-frontend/raw/master/static/icon.png" alt="Continhas Logo" />
 
 </p>
 
-# Splitabilly
+# Continhas
 
-Splitabilly is a very special Bill Splitting solution!
+Continhas is a very special Bill Splitting solution!
 
 Share your home, event or bills of any other kind of activity and then settle the differences once and for all with everybody!
 
@@ -23,12 +23,12 @@ Share your home, event or bills of any other kind of activity and then settle th
 ## Purpose
 This project is made to practice my developer skills using [PHP](https://github.com/php)/[Laravel](https://github.com/laravel) for the API and [Vue](https://github.com/vuejs)/[Nuxt](https://github.com/nuxt) for the Web Pages and Single Page Application feel.
 
-Also to make my home's bill splitting easier. It was previously done by registering the expenses on a Google form, and the splitting calculated on a Spreadsheet.
+Also to make my home's bill splitting easier. It was formerly done by registering the expenses on a Google form, and the splitting calculated on a Spreadsheet.
 
 This is my very first project that has Tests! Hooray!
 
 ## Related project
-The Frontend project is available on [Splitabilly](https://github.com/guiofranca/spa-frontend).
+The Frontend project is available on [Continhas](https://github.com/guiofranca/spa-frontend).
 
 ## Build Setup
 Copy the `.env.example` to `.env` and fill it to map your environment. Then:
@@ -39,6 +39,7 @@ $ composer install
 
 # generate a new application key
 $ php artisan key:generate
+$ php artisan jwt:secret
 
 # run migrations
 $ php artisan migrate
