@@ -47,9 +47,9 @@ jobs:
 
     steps:
     - name: Deploy application
-    if: ${{ github.ref == 'refs/heads/main' }}
-    uses: akhileshns/heroku-deploy@v3.12.12
-      with:
-        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-        heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
-        heroku_email: ${{secrets.HEROKU_EMAIL_ADDRESS}}
+      if: ${{ github.ref == 'refs/heads/main' }}
+      uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_email: ${{secrets.HEROKU_EMAIL_ADDRESS}}
