@@ -1,4 +1,4 @@
-name: Laravel
+name: Continhas
 
 on:
   push:
@@ -7,8 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  laravel-tests:
-
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,8 +29,27 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
+
+  coverage:
+    - needs: build
+    runs-on: ubuntu-latest
+
+    steps:
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: vendor/bin/phpunit
+  
+  deploy:
+    - needs: coverage
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy application
+    if: ${{ github.ref == 'refs/heads/main' }}
+    uses: akhileshns/heroku-deploy@v3.12.12
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+        heroku_email: ${{secrets.HEROKU_EMAIL_ADDRESS}}
