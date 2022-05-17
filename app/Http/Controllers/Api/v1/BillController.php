@@ -44,7 +44,7 @@ class BillController extends Controller
 
         return (new BillResource($bill))
             ->additional([
-                'message' => 'Bill sucessfully created',
+                'message' => __('Bill sucessfully created'),
             ])
             ->response()
             ->setStatusCode(201);
@@ -78,7 +78,7 @@ class BillController extends Controller
 
         return (new BillResource($bill))
             ->additional([
-                'message' => 'Bill sucessfully updated',
+                'message' => __('Bill sucessfully updated'),
             ]);
     }
 
@@ -93,7 +93,7 @@ class BillController extends Controller
         $bill->delete();
 
         return response()->json([
-            'message' => 'Bill deleted successfully',
+            'message' => __('Bill deleted successfully'),
         ], 200);
     }
 }

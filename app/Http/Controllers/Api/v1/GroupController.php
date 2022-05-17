@@ -58,7 +58,7 @@ class GroupController extends Controller
         
         return (new GroupResource($group))
             ->additional([
-                'message' => 'Group sucessfully created',
+                'message' => __('Group sucessfully created'),
             ])
             ->response()
             ->setStatusCode(201);
@@ -89,7 +89,7 @@ class GroupController extends Controller
 
         return (new GroupResource($group))
             ->additional([
-                'message' => 'Group sucessfully updated',
+                'message' => __('Group sucessfully updated'),
             ]);
     }
 
@@ -104,7 +104,7 @@ class GroupController extends Controller
         $group->delete();
 
         return response()->json([
-            'message' => 'Group deleted successfully',
+            'message' => __('Group deleted successfully'),
         ], 200);
     }
 }

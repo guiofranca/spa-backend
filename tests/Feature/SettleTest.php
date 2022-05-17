@@ -45,7 +45,7 @@ class SettleTest extends TestCase
         $this->actingAs($this->user1)
             ->json('post', '/api/v1/settles', ['name' => 'test settle'])
             ->assertStatus(403)
-            ->assertJsonFragment(['message' => 'You need unsettled bills to settle']);
+            ->assertJsonFragment(['message' => __('You need unsettled bills to settle')]);
     }
     
     public function test_cant_create_settle_without_active_group()
@@ -53,7 +53,7 @@ class SettleTest extends TestCase
         $this->actingAs($this->user3)
             ->json('post', '/api/v1/settles', ['name' => 'test settle'])
             ->assertStatus(403)
-            ->assertJsonFragment(['message' => 'You need to be in a group you own to make a settle']);
+            ->assertJsonFragment(['message' => __('You need to be in a group you own to make a settle')]);
     }
     
     public function test_only_group_owner_can_create_settles()
@@ -63,12 +63,12 @@ class SettleTest extends TestCase
         $this->actingAs($this->user2)
             ->json('post', '/api/v1/settles', ['name' => 'test settle'])
             ->assertStatus(403)
-            ->assertJsonFragment(['message' => 'You need to be in a group you own to make a settle']);
+            ->assertJsonFragment(['message' => __('You need to be in a group you own to make a settle')]);
             
         $this->actingAs($this->user1)
             ->json('post', '/api/v1/settles', ['name' => 'test settle'])
             ->assertStatus(201)
-            ->assertJsonFragment(['message' => 'Settle sucessfully created']);
+            ->assertJsonFragment(['message' => __('Settle sucessfully created')]);
     }
 
     public function test_only_group_owner_can_edit_settle()
@@ -87,7 +87,7 @@ class SettleTest extends TestCase
             ->assertStatus(200)
             ->assertJsonFragment(['name' => 'settling'])
             ->assertJsonFragment(['settled' => true])
-            ->assertJsonFragment(['message' => 'Settle sucessfully updated']);
+            ->assertJsonFragment(['message' => __('Settle sucessfully updated')]);
         
         $this->actingAs($this->user2)
             ->json('patch', "/api/v1/settles/{$settle->id}", [
@@ -95,7 +95,7 @@ class SettleTest extends TestCase
                 'settled' => true,
             ])
             ->assertStatus(403)
-            ->assertJsonFragment(['message' => "You can't change a settle from a group you do not own"]);
+            ->assertJsonFragment(['message' => __("You can't change a settle from a group you do not own")]);
     }
 
     public function test_unsettled_bills_are_associated_to_settle_when_created()
@@ -133,7 +133,7 @@ class SettleTest extends TestCase
         $this->actingAs($this->user1)
             ->json('delete', "/api/v1/settles/{$settle->id}")
             ->assertStatus(200)
-            ->assertJsonFragment(['message' => 'Settle successfully deleted']);
+            ->assertJsonFragment(['message' => __('Settle successfully deleted')]);
 
         $this->assertNull($settle->fresh());
     }

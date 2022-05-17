@@ -12,6 +12,8 @@ class RegisterController extends Controller
     {
         User::create($request->validated());
 
-        return response()->json(['message' => 'Account successfully created!'], 201);
+        return response()->json([
+            'message' => __('Account successfully created!'),
+        ], 201);
     }
 }

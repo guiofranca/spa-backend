@@ -79,7 +79,7 @@ class GroupMemberTest extends TestCase
         $this->actingAs($this->user1)
             ->json('delete', "/api/v1/group_members/{$member->id}")
             ->assertStatus(200)
-            ->assertJsonFragment(['message' => 'Group Member removed']);
+            ->assertJsonFragment(['message' => __('Group Member removed')]);
         
         $this->assertNull($member->fresh());
     }
@@ -91,7 +91,7 @@ class GroupMemberTest extends TestCase
         $this->actingAs($this->user1)
             ->json('delete', "/api/v1/group_members/{$member->id}")
             ->assertStatus(403)
-            ->assertJsonFragment(['message' => "You can't remove yourself"]);
+            ->assertJsonFragment(['message' => __("You can't remove yourself")]);
     }
     
     public function create_a_group(User $user): Group

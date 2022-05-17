@@ -31,7 +31,7 @@ class GroupInvitationTest extends TestCase
         $this->actingAs($this->user1)
             ->json('POST', '/api/v1/group_invitation', ['group_id' => $this->group->id])
             ->assertStatus(201)
-            ->assertJsonFragment(['message' => 'Invitation Created']);
+            ->assertJsonFragment(['message' => __('Invitation Created')]);
 
         $this->actingAs($this->user2)
             ->json('POST', '/api/v1/group_invitation', ['group_id' => $this->group->id])

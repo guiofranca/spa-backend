@@ -38,7 +38,7 @@ class GroupTest extends TestCase
         $this->actingAs($this->user1)
             ->json('POST', '/api/v1/groups', Group::factory()->make()->only('name', 'description'))
             ->assertStatus(201)
-            ->assertJsonFragment(['message' => 'Group sucessfully created']);
+            ->assertJsonFragment(['message' => __('Group sucessfully created')]);
 
         $this->actingAs($this->user1)
             ->json('GET', '/api/v1/groups')
@@ -143,7 +143,7 @@ class GroupTest extends TestCase
                 'active_group_id' => $group1->id
             ])
             ->assertStatus(200)
-            ->assertJsonFragment(["message" => "Active group changed"]);
+            ->assertJsonFragment(["message" => __("Active group changed")]);
         
         $this->actingAs($this->user2)
             ->json('patch', '/api/v1/user/activegroup', [
@@ -158,7 +158,7 @@ class GroupTest extends TestCase
                 'active_group_id' => $group1->id
             ])
             ->assertStatus(200)
-            ->assertJsonFragment(["message" => "Active group changed"]);
+            ->assertJsonFragment(["message" => __("Active group changed")]);
     }
 
     public function create_a_group(User $user): Group

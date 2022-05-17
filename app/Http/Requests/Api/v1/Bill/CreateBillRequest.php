@@ -44,7 +44,7 @@ class CreateBillRequest extends FormRequest
 
     public function messages(){
         return [
-            'group_id.required' => 'You must select an active group'
+            'group_id.required' => __('You must select an active group')
         ];
     }
 }

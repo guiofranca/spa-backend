@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -37,5 +39,28 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Exception  $exception
+     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     */
+    public function render($request, Throwable $exception)
+    {
+        if($exception instanceof ThrottleRequestsException) {
+            return parent::render(
+                $request, new ThrottleRequestsException(
+                    __('Too Many Attempts'),
+                    $exception->getPrevious(),
+                    $exception->getHeaders(),
+                    $exception->getCode()
+                )
+            );
+        }
+
+        return parent::render($request, $exception);
     }
 }

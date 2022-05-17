@@ -27,6 +27,7 @@ class UpdateProfileRequest extends FormRequest
             'name' => ['required', 'min:3'],
             'email' => ['nullable', 'email', 'unique:users,email,'.auth()->id().',id'],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'current_password' => ['required_with:password', 'current_password'],
         ];
     }
 }

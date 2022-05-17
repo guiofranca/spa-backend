@@ -63,13 +63,13 @@ class BillTest extends TestCase
             ->json('post', '/api/v1/bills', Bill::factory()->make()->toArray())
             ->assertStatus(201)
             ->assertJsonFragment(['group_id' => $this->user1->active_group_id])
-            ->assertJsonFragment(['message' => 'Bill sucessfully created']);
+            ->assertJsonFragment(['message' => __('Bill sucessfully created')]);
 
         $this->actingAs($this->user2)
             ->json('post', '/api/v1/bills', Bill::factory()->make()->toArray())
             ->assertStatus(201)
             ->assertJsonFragment(['group_id' => $this->user2->active_group_id])
-            ->assertJsonFragment(['message' => 'Bill sucessfully created']);
+            ->assertJsonFragment(['message' => __('Bill sucessfully created')]);
         
         $this->actingAs($this->user1)
             ->json('get', '/api/v1/bills/2')

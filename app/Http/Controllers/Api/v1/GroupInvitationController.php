@@ -22,7 +22,7 @@ class GroupInvitationController extends Controller
         $groupInvitation = GroupInvitation::create($request->validated());
 
         return response()->json([
-            'message' => 'Invitation Created',
+            'message' => __('Invitation Created'),
             'url' => config('app.url') . "/invite/{$groupInvitation->token}",
             'token' => $groupInvitation->token,
         ], 201);
@@ -70,7 +70,7 @@ class GroupInvitationController extends Controller
         }
 
         return response()->json([
-            'message' => 'Invitation ' . ($request->input('accepted') ? 'accepted' : 'rejected'),
+            'message' => __('Invitation') . ' ' . ($request->input('accepted') ? __('accepted') : __('rejected')),
             'accepted' => $request->input('accepted'),
         ], 200);
     }

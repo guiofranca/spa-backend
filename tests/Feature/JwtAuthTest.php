@@ -29,6 +29,25 @@ class JwtAuthTest extends TestCase
         ])->assertStatus(401);
     }
 
+    public function test_login_should_throttle_after_3_times()
+    {
+        for($i = 1; $i <= 3; $i++) {
+            $response = $this->json('POST', '/api/v1/auth/login', [
+                'email' => $this->user->email,
+                'password' => 'wrong_password'
+            ])
+            ->assertHeader("X-RateLimit-Limit", "3")
+            ->assertHeader("X-RateLimit-Remaining", (string) (3 - $i));
+        }
+
+        $this->json('POST', '/api/v1/auth/login', [
+            'email' => $this->user->email,
+            'password' => 'wrong_password'
+        ])->assertStatus(429);
+
+        
+    }
+
     public function test_login_returns_token()
     {
         $response = $this->json('POST', '/api/v1/auth/login', [

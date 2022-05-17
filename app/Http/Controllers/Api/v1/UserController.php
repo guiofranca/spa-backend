@@ -12,15 +12,17 @@ class UserController extends Controller
 {
     public function updateProfile(UpdateProfileRequest $request)
     {
-        if(
-            $request->has('current_password') && 
-            !Hash::check($request->input('current_password'), auth()->user()->password)){
-            return response()->json(['message' => 'Current password does not match.'], 422);
-        }
+        // if(
+        //     $request->has('current_password') && 
+        //     !Hash::check($request->input('current_password'), auth()->user()->password)){
+        //     return response()->json(['message' => 'Current password does not match.'], 422);
+        // }
 
         auth()->user()->update($request->validated());
 
-        return response()->json(['message' => 'Profile information changed successfully!']);
+        return response()->json([
+            'message' => __('Profile information changed successfully!'),
+        ]);
     }
 
     public function user(){
@@ -30,6 +32,8 @@ class UserController extends Controller
     public function setActiveGroup(SetActiveGroupRequest $request){
         auth()->user()->update($request->validated());
 
-        return response()->json(['message' => 'Active group changed']);
+        return response()->json([
+            'message' => __('Active group changed'),
+        ]);
     }
 }

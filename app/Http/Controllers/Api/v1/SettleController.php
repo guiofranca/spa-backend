@@ -46,7 +46,7 @@ class SettleController extends Controller
 
         return (new SettleResource($settle))
             ->additional([
-                'message' => 'Settle sucessfully created',
+                'message' => __('Settle sucessfully created'),
             ])
             ->response()
             ->setStatusCode(201);
@@ -76,7 +76,7 @@ class SettleController extends Controller
 
         return (new SettleResource($settle))
             ->additional([
-                'message' => 'Settle sucessfully updated',
+                'message' => __('Settle sucessfully updated'),
             ]);
     }
 
@@ -91,7 +91,7 @@ class SettleController extends Controller
         $settle->delete();
 
         return response()->json([
-            'message' => 'Settle successfully deleted'
+            'message' => __('Settle successfully deleted'),
         ]);
     }
 }

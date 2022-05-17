@@ -82,7 +82,7 @@ class GroupMemberController extends Controller
 
         return (new GroupMemberResource($groupMember))
             ->additional([
-                'message' => 'Group member sucessfully updated',
+                'message' => __('Group member sucessfully updated'),
             ]);
     }
 
@@ -97,7 +97,7 @@ class GroupMemberController extends Controller
         $groupMember->delete();
 
         return response()->json([
-            'message' => 'Group Member removed',
+            'message' => __('Group Member removed'),
         ]);
     }
 }

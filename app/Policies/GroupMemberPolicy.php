@@ -36,6 +36,6 @@ class GroupMemberPolicy
     {
         return $groupMember->group->isOwnedBy($user) && $groupMember->user->id != $user->id
             ? Response::allow()
-            : Response::deny("You can't remove yourself");
+            : Response::deny(__("You can't remove yourself"));
     }
 }

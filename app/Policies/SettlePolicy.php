@@ -48,12 +48,12 @@ class SettlePolicy
 
         if(!$user->active_group?->isOwnedBy($user))
         {
-            return Response::deny("You need to be in a group you own to make a settle");
+            return Response::deny(__("You need to be in a group you own to make a settle"));
         }
 
         return $user?->active_group?->unsettledBills->isnotEmpty()
             ? Response::allow()
-            : Response::deny("You need unsettled bills to settle");
+            : Response::deny(__("You need unsettled bills to settle"));
     }
 
     /**
@@ -67,7 +67,7 @@ class SettlePolicy
     {
         return $settle->group->isOwnedBy($user)
             ? Response::allow()
-            : Response::deny("You can't change a settle from a group you do not own");
+            : Response::deny(__("You can't change a settle from a group you do not own"));
     }
 
     /**
