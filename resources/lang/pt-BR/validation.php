@@ -80,6 +80,12 @@ return [
 
     'attributes' => [
         'password' => 'senha',
+        'group' => 'grupo',
+        'category_id' => 'categoria',
+        'description' => 'descrição',
+        'value' => 'valor',
+        'paid_at' => 'data',
+        'name' => 'nome',
     ],
 
 ];
