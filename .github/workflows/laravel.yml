@@ -37,5 +37,7 @@ jobs:
     needs: build-and-test
     runs-on: ubuntu-latest
     steps:
-    - uses: nerdify/ping-action@1.0.0
-      secrets: [PING_URL]
+      uses: srt32/uptime@master
+      with:
+        url-to-hit: ${{secrets.PING_URL}}
+        expected-statuses: "404"
