@@ -3,8 +3,6 @@ name: Continhas
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   build-and-test:
@@ -38,3 +36,6 @@ jobs:
   deploy:
     needs: build-and-test
     runs-on: ubuntu-latest
+    steps:
+    - uses: nerdify/ping-action@1.0.0
+      ping_url: ${{secrets.PING_URL}}
