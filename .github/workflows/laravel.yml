@@ -38,5 +38,3 @@ jobs:
   deploy:
     needs: build-and-test
     runs-on: ubuntu-latest
-    steps:
-      - uses: bitcoder/dummy-action@v10
