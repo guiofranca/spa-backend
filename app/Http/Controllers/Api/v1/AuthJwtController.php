@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\Auth\LoginRequest;
-use App\Http\Resources\Api\v1\UserResource;
 
 class AuthJwtController extends Controller
 {
@@ -29,7 +28,7 @@ class AuthJwtController extends Controller
 
         if (! $token = auth()->attempt($credentials)) {
             return response()->json([
-                'error' => __('Unauthorized'),
+                'message' => __('Unauthorized'),
             ], 401);
         }
 

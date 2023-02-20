@@ -21,7 +21,7 @@ class SettlePolicy
     {
         return $user->active_group_id != null
             ? Response::allow()
-            : Response::deny("You need to set an active group");
+            : Response::deny(__("You need to set an active group"));
     }
 
     /**

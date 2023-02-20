@@ -21,7 +21,7 @@ class BillPolicy
     {
         return isset($user->active_group_id)
             ? Response::allow()
-            : Response::deny("Please choose a group first");
+            : Response::deny(__("Please choose a group first"));
     }
 
     /**
@@ -46,7 +46,7 @@ class BillPolicy
     {
         return isset($user->active_group_id)
             ? Response::allow()
-            : Response::deny("Please choose a group first");
+            : Response::deny(__("Please choose a group first"));
     }
 
     /**
@@ -60,7 +60,7 @@ class BillPolicy
     {
         return $bill->isOwnedBy($user)
             ? Response::allow()
-            : Response::deny("You should only edit bills that you created");
+            : Response::deny(__("You should only edit bills that you created"));
     }
 
     /**
@@ -74,6 +74,6 @@ class BillPolicy
     {
         return $bill->isOwnedBy($user)
         ? Response::allow()
-        : Response::deny("You should only delete bills that you created");
+        : Response::deny(__("You should only delete bills that you created"));
     }
 }
