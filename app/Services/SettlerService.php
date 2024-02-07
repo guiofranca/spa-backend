@@ -2,10 +2,12 @@
 
 namespace App\Services;
 
+use App\Models\Bill;
 use App\Models\Group;
 use App\Models\Settle;
 use App\Models\SettleFragment;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class SettlerService
 {
@@ -41,7 +43,38 @@ class SettlerService
         });
 
         $settleFragments->each(fn($settleFragment) => $settleFragment->save());
-
+        SettlerService::copyRecurringBills($settle);
         return $settleFragments;
+    }
+
+    private static function copyRecurringBills(Settle $settle) : void 
+    {
+        $pattern = "/(\d+)\/(\d+)/";
+        $settle->bills->each(function(Bill $bill) use ($pattern) {
+            $description = preg_replace_callback($pattern, function($matches) {
+                $numerator = intval($matches[1]) + 1; 
+                $denominator = intval($matches[2]);
+                if($numerator > $denominator) return $matches[0];
+                $result = $numerator . "/" . $denominator;
+                return $result;
+            }, $bill->description);
+
+            if($description != $bill->description) {
+                $newBill = $bill->replicate();
+                $newBill->description = $description;
+                $newBill->settle_id = null;
+                $newBill->paid_at = $newBill->paid_at->addMonth(1);
+                $newBill->save();
+                return;
+            }
+
+            if(Str::contains($bill->description, "mensal", true)) {
+                $newBill = $bill->replicate();
+                $newBill->settle_id = null;
+                $newBill->paid_at = $newBill->paid_at->addMonth(1);
+                $newBill->save();
+                return;
+            }
+        });
     }
 }
