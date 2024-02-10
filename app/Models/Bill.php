@@ -20,6 +20,11 @@ class Bill extends Model
         'due_at',
     ];
 
+    protected $casts = [
+        'paid_at' => 'datetime',
+        'due_at' => 'datetime',
+    ];
+
     public function getValueAttribute()
     {
         return sprintf('%.2f', $this->attributes['value']/100);
