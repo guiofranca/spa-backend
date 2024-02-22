@@ -28,7 +28,7 @@ class BillResource extends JsonResource
             'updated_at',
         ]);
 
-        $resource['value'] = $resource['value'];
+        $resource['paid_at'] = $this->paid_at->format('Y-m-d');
 
         $resource['user'] = $this->user->only('id', 'name');
         $resource['category'] = new CategoryResource($this->category);
