@@ -11,18 +11,17 @@ use App\Http\Controllers\Api\v1\SettleController;
 use App\Http\Controllers\Api\v1\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'v1'], function(){
-    Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function(){
+Route::group(['prefix' => 'v1'], function () {
+    Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function () {
         Route::get('/', [UserController::class, 'user']);
         Route::patch('/', [UserController::class, 'updateProfile']);
         Route::patch('/activegroup', [UserController::class, 'setActiveGroup']);
     });
-    
-    Route::group(['prefix' => 'auth'], function ($router) {    
-        Route::post('login', [AuthJwtController::class, 'login'])->middleware('throttle:3,10');
+
+    Route::group(['prefix' => 'auth'], function () {
+        Route::post('login', [AuthJwtController::class, 'login']); //->middleware('throttle:3,10');
         Route::post('logout', [AuthJwtController::class, 'logout']);
         Route::post('refresh', [AuthJwtController::class, 'refresh']);
-        Route::get('me', [AuthJwtController::class, 'me']);
         Route::post('register', [RegisterController::class, 'register']);
     });
 
@@ -39,14 +38,14 @@ Route::group(['prefix' => 'v1'], function(){
         ->middleware('auth:api');
 
     Route::resource('group_invitation', GroupInvitationController::class)
-        ->except(['edit','create'])
+        ->except(['index', 'edit', 'create', 'destroy'])
         ->middleware('auth:api');
-    
+
     Route::resource('group_members', GroupMemberController::class)
         ->only(['update', 'destroy'])
         ->middleware('auth:api');
 
     Route::resource('settles', SettleController::class)
-        ->except(['edit','create'])
+        ->except(['edit', 'create'])
         ->middleware('auth:api');
 });

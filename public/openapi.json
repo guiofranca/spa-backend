@@ -1,0 +1,59 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Continhas API",
+        "version": "1.0"
+    },
+    "paths": {
+        "/settles": {
+            "get": {
+                "tags": [
+                    "Settle"
+                ],
+                "summary": "List settles",
+                "operationId": "3a66a356f5dc57c3b4a4c4ef2f03a6e1",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            }
+        },
+        "/user": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get current user with active group",
+                "operationId": "665aad23be19d2fd87723ff8dca05797",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "User",
+                    "Yo?"
+                ],
+                "summary": "Update current user profile",
+                "operationId": "9cbc727a8455c52257ae98630833f5a1",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            }
+        }
+    }
+}

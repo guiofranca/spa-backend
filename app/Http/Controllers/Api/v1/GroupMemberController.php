@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\GroupMember\UpdateGroupMemberRequest;
 use App\Http\Resources\Api\v1\GroupMemberResource;
 use App\Models\GroupMember;
 use Illuminate\Http\Request;
 
+/**
+ * @tags v1 Membro do grupo
+ */
 class GroupMemberController extends Controller
 {
 

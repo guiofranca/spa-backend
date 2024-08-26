@@ -2,21 +2,24 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\Bill\CreateBillRequest;
 use App\Http\Requests\Api\v1\Bill\UpdateBillRequest;
 use App\Http\Resources\Api\v1\BillResource;
 use App\Http\Resources\Api\v1\BillResourceCollection;
 use App\Models\Bill;
+use Illuminate\Support\Facades\Auth;
 
+/**
+ * @tags v1 Despesas
+ */
 class BillController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Bill::class, 'bill');    
+        $this->authorizeResource(Bill::class, 'bill');
     }
     /**
-     * Display a listing of the resource.
+     * Listagem das despesas ativas.
      *
      * @return \Illuminate\Http\Response
      */
@@ -31,14 +34,24 @@ class BillController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Criar uma nova despesa.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  CreateBillRequest  $request
+     * @return BillResource
      */
     public function store(CreateBillRequest $request)
     {
-        $bill = Bill::create($request->validated());
+        if (Auth::user()->active_group_id == null) {
+            return response()->json([
+                'message' => __('You must select an active group'),
+            ], 422);
+        }
+
+        $validated = $request->validated();
+        $validated['group_id'] = Auth::user()->active_group_id;
+        $validated['user_id'] = Auth::id();
+
+        $bill = Bill::create($validated);
 
         $bill->load(['category', 'user']);
 
@@ -51,7 +64,7 @@ class BillController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Mostrar uma despesa.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -64,7 +77,7 @@ class BillController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Atualizar uma despesa.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -83,7 +96,7 @@ class BillController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Apagar uma despesa.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

@@ -26,5 +26,17 @@
     "You need to be in a group you own to make a settle": "Você precisa ser o dono do grupo para fazer o acerto",
     "You can't change a settle from a group you do not own": "Você não pode alterar um acerto de um grupo que você não é dono",
     "Please choose a group first": "Por favor, escolha um grupo",
-    "You need to set an active group": "Você precisa escolher um grupo"
+    "You need to set an active group": "Você precisa escolher um grupo",
+    "General": "Geral",
+    "Home": "Casa",
+    "Groceries": "Mercado",
+    "Food": "Comida",
+    "Party": "Festa",
+    "Car": "Carro",
+    "Trip": "Viagem",
+    "Pets": "Pets",
+    "Clothes": "Roupas",
+    "Health": "Saúde",
+    "Games": "Jogos",
+    "Devices": "Dispositivos"
 }

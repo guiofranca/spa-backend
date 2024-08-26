@@ -8,10 +8,10 @@ class CreateBillRequest extends FormRequest
 {
     protected function prepareForValidation()
     {
-        $this->merge([
-            'user_id' => $this->user()?->id,
-            'group_id' => $this->user()?->active_group_id,
-        ]);
+        // $this->merge([
+        //     'user_id' => $this->user()?->id,
+        //     'group_id' => $this->user()?->active_group_id,
+        // ]);
     }
 
     /**
@@ -34,8 +34,6 @@ class CreateBillRequest extends FormRequest
         return [
             'description' => ['required', 'min:3', 'max:255'],
             'value' => ['required', 'numeric'],
-            'user_id' => ['required'],
-            'group_id' => ['required'],
             'category_id' => ['required', 'integer', 'exists:categories,id'],
             'paid_at' => ['required', 'date'],
             'due_at' => ['nullable', 'date'],

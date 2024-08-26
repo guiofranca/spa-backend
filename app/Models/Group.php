@@ -21,15 +21,18 @@ class Group extends Model
         'owner_id' => 'integer',
     ];
 
-    public function groupMembers(){
+    public function groupMembers()
+    {
         return $this->hasMany(GroupMember::class);
     }
 
-    public function hasMember(User $user){
+    public function hasMember(User $user)
+    {
         return $this->groupMembers()->where('user_id', $user->id)->get()->isNotEmpty();
     }
 
-    public function isOwnedBy(User $user){
+    public function isOwnedBy(User $user)
+    {
         return $this->owner_id == $user->id;
     }
 

@@ -8,13 +8,6 @@ use Illuminate\Support\Str;
 
 class CreateGroupInvitationRequest extends FormRequest
 {
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'token' => Str::uuid(),
-        ]);
-    }
-
     /**
      * Determine if the user is authorized to make this request.
      *

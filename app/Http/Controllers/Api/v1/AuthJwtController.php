@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\Auth\LoginRequest;
+use Illuminate\Support\Facades\Auth;
 
+/**
+ * @tags v1 Auth
+ */
 class AuthJwtController extends Controller
 {
     /**
@@ -18,15 +21,14 @@ class AuthJwtController extends Controller
     }
 
     /**
-     * Get a JWT via given credentials.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * Login
+     * 
      */
     public function login(LoginRequest $request)
     {
         $credentials = $request->validated();
 
-        if (! $token = auth()->attempt($credentials)) {
+        if (!$token = auth()->attempt($credentials)) {
             return response()->json([
                 'message' => __('Unauthorized'),
             ], 401);
@@ -36,9 +38,7 @@ class AuthJwtController extends Controller
     }
 
     /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * Logout
      */
     public function logout()
     {
@@ -50,13 +50,11 @@ class AuthJwtController extends Controller
     }
 
     /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * Refresh Token
      */
     public function refresh()
     {
-        return $this->respondWithToken(auth()->refresh());
+        return $this->respondWithToken(Auth::refresh());
     }
 
     /**
@@ -71,7 +69,7 @@ class AuthJwtController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => Auth::factory()->getTTL() * 60
         ]);
     }
 }

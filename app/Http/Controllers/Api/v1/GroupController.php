@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\Group\CreateGroupRequest;
-use App\Http\Requests\Api\v1\Group\DeleteGroupRequest;
-use App\Http\Requests\Api\v1\Group\ShowGroupRequest;
 use App\Http\Requests\Api\v1\Group\UpdateGroupRequest;
 use App\Http\Resources\Api\v1\GroupResource;
 use App\Http\Resources\Api\v1\GroupResourceCollection;
@@ -13,6 +10,9 @@ use App\Models\Group;
 use App\Models\GroupMember;
 use Illuminate\Http\Request;
 
+/**
+ * @tags v1 Grupos
+ */
 class GroupController extends Controller
 {
 
@@ -72,7 +72,7 @@ class GroupController extends Controller
      */
     public function show(Request $request, Group $group)
     {
-        return new GroupResource($group->load('groupMembers.user'));
+        return new GroupResource($group->load('groupMembers.user:name,id'));
     }
 
     /**

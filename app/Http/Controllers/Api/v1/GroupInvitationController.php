@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\GroupInvitation\CreateGroupInvitationRequest;
 use App\Http\Requests\Api\v1\GroupInvitation\UpdateGroupInvitationRequest;
 use App\Models\GroupInvitation;
 use App\Models\GroupMember;
-use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
-class GroupInvitationController extends Controller
+/**
+ * @tags v1 Convite para grupo
+ */
+class GroupInvitationController extends Controller 
 {
     /**
      * Store a newly created resource in storage.
@@ -19,7 +21,9 @@ class GroupInvitationController extends Controller
      */
     public function store(CreateGroupInvitationRequest $request)
     {
-        $groupInvitation = GroupInvitation::create($request->validated());
+        $validated = $request->validated();
+        $validated['token'] = Str::uuid();
+        $groupInvitation = GroupInvitation::create($validated);
 
         return response()->json([
             'message' => __('Invitation Created'),

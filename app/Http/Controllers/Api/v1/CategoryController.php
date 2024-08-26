@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\v1\CategoryResourceCollection;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
+/**
+ * @tags v1 Categorias
+ */
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Lista as categorias.
      *
      * @return \Illuminate\Http\Response
      */

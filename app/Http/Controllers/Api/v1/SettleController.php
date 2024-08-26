@@ -2,26 +2,33 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\Settle\CreateSettleRequest;
 use App\Http\Requests\Api\v1\Settle\UpdateSettleRequest;
 use App\Http\Resources\Api\v1\SettleResource;
 use App\Http\Resources\Api\v1\SettleResourceCollection;
 use App\Models\Settle;
 use App\Services\SettlerService;
+use OpenApi\Attributes as OA;
 
+/**
+ * @tags v1 Acertos
+ */
 class SettleController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Settle::class, 'settle');    
+        $this->authorizeResource(Settle::class, 'settle');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    #[OA\Get(
+        path: "/settles",
+        summary: "List settles foi?",
+        tags: ["Settle"],
+        responses: [
+            new OA\Response(response: 400, description: "Invalid request", content: new OA\JsonContent(example: ['yes' => 'sim'], ref: "")),
+            new OA\Response(response: 200, description: "Successful operation"),
+        ]
+    )]
     public function index()
     {
         return new SettleResourceCollection(Settle::query()
@@ -42,7 +49,7 @@ class SettleController extends Controller
 
         $settle->group->unsettledBills()->update(['settle_id' => $settle->id]);
 
-        SettlerService::makeSettle($settle->loadMissing(['bills','group.groupMembers']));
+        SettlerService::makeSettle($settle->loadMissing(['bills', 'group.groupMembers']));
 
         return (new SettleResource($settle))
             ->additional([

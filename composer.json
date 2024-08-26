@@ -7,19 +7,21 @@
     "require": {
         "php": "^8.2",
         "guzzlehttp/guzzle": "^7.0.1",
-        "laravel/framework": "^10.0",
+        "laravel/framework": "^11.0",
         "laravel/tinker": "^2.5",
         "tymon/jwt-auth": "^2.0",
         "zircote/swagger-php": "^4.8"
     },
     "require-dev": {
-        "barryvdh/laravel-ide-helper": "^2.13",
+        "dedoc/scramble": "^0.9.0",
         "doctrine/annotations": "^2.0",
+        "doctrine/dbal": "^4.0",
         "fakerphp/faker": "^1.9.1",
         "itsgoingd/clockwork": "^5.1",
         "laravel/sail": "^1.26",
+        "laravel/telescope": "^5.0",
         "mockery/mockery": "^1.4.2",
-        "nunomaduro/collision": "^7.0",
+        "nunomaduro/collision": "^8.1",
         "phpunit/php-code-coverage": "^10.0",
         "phpunit/phpunit": "^10.0",
         "spatie/laravel-ignition": "^2.0"
@@ -55,13 +57,14 @@
             "php artisan optimize"
         ],
         "generate-openapi": [
-            "vendor/bin/openapi app/Http/Controllers/Api/v1 -o public/openapi_v1.json",
-            "vendor/bin/openapi app/Http/Controllers/Api/v2 -o public/openapi_v2.json"
+            "vendor/bin/openapi app/Http/Controllers/Api/v1 -o public/openapi_v1.json"
         ]
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         }
     },
     "config": {
