@@ -1,29 +1,26 @@
 {
-    "name": "laravel/laravel",
+    "name": "guiofranca/continhas",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Projeto Continhas",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
-        "dedoc/scramble": "^0.11.12",
+        "php": "^8.4",
+        "dedoc/scramble": "^0.12",
         "guzzlehttp/guzzle": "^7.0.1",
-        "laravel/framework": "^10.0",
+        "laravel/framework": "^12.0",
         "laravel/octane": "^2.4",
         "laravel/tinker": "^2.5",
-        "tymon/jwt-auth": "^2.0",
-        "zircote/swagger-php": "^4.8"
+        "tymon/jwt-auth": "^2.0"
     },
     "require-dev": {
-        "barryvdh/laravel-ide-helper": "^2.13",
         "doctrine/annotations": "^2.0",
         "fakerphp/faker": "^1.9.1",
-        "itsgoingd/clockwork": "^5.1",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.4.2",
-        "nunomaduro/collision": "^7.0",
-        "phpunit/php-code-coverage": "^10.0",
-        "phpunit/phpunit": "^10.0",
+        "nunomaduro/collision": "^8.1",
+        "phpunit/php-code-coverage": "^11.0",
+        "phpunit/phpunit": "^11.0",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
