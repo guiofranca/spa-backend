@@ -14,9 +14,10 @@ class GroupMemberResource extends JsonResource
      */
     public function toArray($request)
     {
-        $resource = $this->only(['id', 'contribution']);
-        $resource['name'] = $this->user->name;
-
-        return $resource;
+        return [
+            'id' => $this->id,
+            'contribution' => $this->contribution,
+            'name' => $this->user->name,
+        ];
     }
 }

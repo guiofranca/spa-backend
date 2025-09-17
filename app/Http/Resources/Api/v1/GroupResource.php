@@ -14,17 +14,12 @@ class GroupResource extends JsonResource
      */
     public function toArray($request)
     {
-        $resource = $this->only([
-            'id',
-            'name',
-            'description',
-            'owner_id',
-        ]);
-
-        $resource['group_members'] = $this->groupMembers->map(function($member){
-            return new GroupMemberResource($member);
-        });
-
-        return $resource;
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'owner_id' => $this->owner_id,
+            'group_members' => GroupMemberResource::collection($this->groupMembers),
+        ];
     }
 }

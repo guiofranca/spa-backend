@@ -14,24 +14,20 @@ class BillResource extends JsonResource
      */
     public function toArray($request)
     {
-        $resource = $this->only([
-            'id',
-            'description',
-            'value',
-            'user_id',
-            'group_id',
-            'category_id',
-            'settle_id',
-            'paid_at',
-            'due_at',
-            'created_at',
-            'updated_at',
-        ]);
-
-        $resource['paid_at'] = $this->paid_at->format('Y-m-d');
-
-        $resource['user'] = $this->user->only('id', 'name');
-        $resource['category'] = new CategoryResource($this->category);
-        return $resource;
+        return [
+            'id' => $this->id,
+            'description' => $this->description,
+            'value' => $this->value,
+            'user_id' => $this->user_id,
+            'group_id' => $this->group_id,
+            'category_id' => $this->category_id,
+            'settle_id' => $this->settle_id,
+            'paid_at' => $this->paid_at->format('Y-m-d'),
+            'user' => $this->user->only('id', 'name'),
+            'category' => new CategoryResource($this->category),
+            'due_at' => $this->due_at,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
     }
 }

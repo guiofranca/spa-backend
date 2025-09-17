@@ -14,13 +14,12 @@ class SettleFragmentResource extends JsonResource
      */
     public function toArray($request)
     {
-        $resource = [];
-        $resource['name'] = $this->user->name;
-        $resource['paid'] = $this->paid;
-        $resource['contribute'] = $this->contribute;
-        $resource['due'] = $this->due;
-        $resource['to_receive'] = $this->to_receive;
-
-        return $resource;
+        return [
+            'name' => $this->user->name,
+            'paid' => $this->paid,
+            'contribute' => $this->contribute,
+            'due' => $this->due,
+            'to_receive' => $this->to_receive,
+        ];
     }
 }

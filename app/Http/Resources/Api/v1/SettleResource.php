@@ -18,17 +18,16 @@ class SettleResource extends JsonResource
         $this->loadMissing('bills.user');
         $this->loadMissing('bills.category');
         $this->loadMissing('settleFragments.user');
-        $resource = $this->only([
-            'id',
-            'name',
-            'settled',
-            'date',
-        ]);
-        $resource['group'] = new GroupResource($this->group);
-        $resource['bills'] = BillResource::collection($this->bills);
-        $resource['settleFragments'] = SettleFragmentResource::collection($this->settleFragments);
-        $resource['total'] = sprintf('%.2f', $this->bills->sum('value'));
-        return $resource;
-        return parent::toArray($request);
+
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'settled' => $this->settled,
+            'date' => $this->date,
+            'group' => new GroupResource($this->group),
+            'bills' => BillResource::collection($this->bills),
+            'settleFragments' => SettleFragmentResource::collection($this->settleFragments),
+            'total' => sprintf('%.2f', $this->bills->sum('value')),
+        ];
     }
 }
