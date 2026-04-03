@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\User\SetActiveGroupRequest;
 use App\Http\Requests\Api\v1\User\UpdateProfileRequest;
 use App\Http\Resources\Api\v1\UserResource;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -18,19 +19,19 @@ class UserController extends Controller
         //     return response()->json(['message' => 'Current password does not match.'], 422);
         // }
 
-        auth()->user()->update($request->validated());
+        $request->user()->update($request->validated());
 
         return response()->json([
             'message' => __('Profile information changed successfully!'),
         ]);
     }
 
-    public function user(){
-        return new UserResource(auth()->user()->load('active_group'));
+    public function user(Request $request){
+        return new UserResource($request->user()->load('active_group'));
     }
 
     public function setActiveGroup(SetActiveGroupRequest $request){
-        auth()->user()->update($request->validated());
+        $request->user()->update($request->validated());
 
         return response()->json([
             'message' => __('Active group changed'),

@@ -8,6 +8,7 @@ use App\Http\Requests\Api\v1\Bill\UpdateBillRequest;
 use App\Http\Resources\Api\v1\BillResource;
 use App\Http\Resources\Api\v1\BillResourceCollection;
 use App\Models\Bill;
+use Illuminate\Http\Request;
 
 class BillController extends Controller
 {
@@ -20,10 +21,10 @@ class BillController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         return new BillResourceCollection(Bill::query()
-            ->where('group_id', auth()->user()->active_group_id)
+            ->where('group_id', $request->user()->active_group_id)
             ->whereNull('settle_id')
             ->with('user', 'category')
             ->orderBy('id', 'desc')

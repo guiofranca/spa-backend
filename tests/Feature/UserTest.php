@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\RateLimiter;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -18,6 +20,7 @@ class UserTest extends TestCase
     {
         parent::setUp();
         $this->user = User::factory()->create();
+        Cache::flush();
     }
 
     public function test_user_must_login_correctly()

@@ -12,6 +12,7 @@ use App\Http\Resources\Api\v1\GroupResourceCollection;
 use App\Models\Group;
 use App\Models\GroupMember;
 use Illuminate\Http\Request;
+use Illuminate\Http\Request as HttpRequest;
 
 class GroupController extends Controller
 {
@@ -26,11 +27,11 @@ class GroupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(HttpRequest $request)
     {
         return new GroupResourceCollection(Group::query()
             ->join('group_members as gm', 'gm.group_id', 'groups.id')
-            ->where('gm.user_id', auth()->id())
+            ->where('gm.user_id', $request->user()->getKey())
             ->select('groups.*')
             ->with(['groupMembers.user'])
             ->get());
@@ -47,11 +48,11 @@ class GroupController extends Controller
         $group = Group::create([
             'name' => $request->name,
             'description' => $request->description,
-            'owner_id' => auth()->id()
+            'owner_id' => $request->user()->getKey()
         ]);
 
         GroupMember::create([
-            'user_id' => auth()->id(),
+            'user_id' => $request->user()->getKey(),
             'group_id' => $group->id,
             'contribution' => 100,
         ]);

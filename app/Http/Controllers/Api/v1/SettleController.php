@@ -9,6 +9,7 @@ use App\Http\Resources\Api\v1\SettleResource;
 use App\Http\Resources\Api\v1\SettleResourceCollection;
 use App\Models\Settle;
 use App\Services\SettlerService;
+use Illuminate\Http\Request;
 
 class SettleController extends Controller
 {
@@ -20,14 +21,15 @@ class SettleController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         return new SettleResourceCollection(Settle::query()
-            ->where('group_id', auth()->user()->active_group_id)
+            ->where('group_id', $request->user()->active_group_id)
             ->orderBy('id', 'desc')
-            ->get());
+            ->paginate(2));
     }
 
     /**

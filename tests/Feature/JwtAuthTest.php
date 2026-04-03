@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 
 class JwtAuthTest extends TestCase
@@ -19,6 +21,7 @@ class JwtAuthTest extends TestCase
         parent::setUp();
         $user = User::factory()->create();
         $this->user = $user;
+        Cache::flush();
     }
 
     public function test_incorrect_credentials_fails_login()
@@ -76,7 +79,7 @@ class JwtAuthTest extends TestCase
             'Authorization' => "bearer {$token}wrong",
         ])->assertStatus(401);
 
-        auth()->unsetToken();
+        Auth::unsetToken();
 
         $this->json('get', '/api/v1/user', [], [
             'Authorization' => "bearer {$token}",
@@ -96,7 +99,7 @@ class JwtAuthTest extends TestCase
         ])->assertStatus(401);
             
         $this->expectException('Tymon\JWTAuth\Exceptions\TokenBlacklistedException');
-        auth()->getPayload();
+        Auth::getPayload();
     }
 
     public function test_user_refreshes_token_and_invalidates_the_old_token()
@@ -110,12 +113,12 @@ class JwtAuthTest extends TestCase
         $this->assertNotEquals($token, json_decode($response->getContent())->access_token);
 
         $this->expectException('Tymon\JWTAuth\Exceptions\TokenBlacklistedException');
-        auth()->getPayload();
+        Auth::getPayload();
     }
 
     public function generateToken() : string
     {
-        $token = auth()->tokenById(1);
+        $token = Auth::tokenById(1);
 
         return $token;
     }

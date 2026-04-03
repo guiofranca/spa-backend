@@ -64,7 +64,7 @@ class GroupInvitationController extends Controller
         if($request->input('accepted')) {
             GroupMember::create([
                 'group_id' => $groupInvitation->group_id,
-                'user_id' => auth()->id(),
+                'user_id' => $request->user()->getKey(),
                 'contribution' => 100,
             ]);
         }
