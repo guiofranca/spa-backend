@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\v1\AuthJwtController;
 use App\Http\Controllers\Api\v1\BillController;
 use App\Http\Controllers\Api\v1\CategoryController;
+use App\Http\Controllers\Api\v1\ExpenseHistoryController;
 use App\Http\Controllers\Api\v1\GroupController;
 use App\Http\Controllers\Api\v1\GroupInvitationController;
 use App\Http\Controllers\Api\v1\GroupMemberController;
@@ -25,6 +26,9 @@ Route::group(['prefix' => 'v1'], function(){
         Route::get('me', [AuthJwtController::class, 'me']);
         Route::post('register', [RegisterController::class, 'register']);
     });
+
+    Route::get('expenses/history', [ExpenseHistoryController::class, 'index'])
+        ->middleware('auth:api');
 
     Route::resource('groups', GroupController::class)
         ->except(['edit', 'create'])
