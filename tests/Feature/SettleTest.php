@@ -105,15 +105,16 @@ class SettleTest extends TestCase
 
         $this->assertCount(10, $this->user1->active_group->unsettledBills);
 
-        $this->actingAs($this->user1)
+        $settle = $this->actingAs($this->user1)
             ->json('post', '/api/v1/settles', Settle::factory()->make()->toArray())
             ->assertStatus(201)
-            ->assertJsonCount(10, 'data.bills');
+            ->assertJsonCount(10, 'data.bills')
+            ->decodeResponseJson()->json('data.id');
 
         $this->assertCount(0, $this->user1->active_group->fresh()->unsettledBills);
 
         $this->actingAs($this->user1)
-            ->json('get', "/api/v1/settles/1")
+            ->json('get', "/api/v1/settles/{$settle}")
             ->assertStatus(200)
             ->assertJsonCount(10, 'data.bills');
     }
@@ -145,15 +146,16 @@ class SettleTest extends TestCase
 
         $this->assertCount(10, $this->user1->active_group->fresh()->unsettledBills);
 
-        $this->actingAs($this->user1)
+        $settle = $this->actingAs($this->user1)
             ->json('post', '/api/v1/settles', Settle::factory()->make()->toArray())
             ->assertStatus(201)
-            ->assertJsonCount(10, 'data.bills');
-        
+            ->assertJsonCount(10, 'data.bills')
+            ->decodeResponseJson()->json('data.id');
+
         $this->assertCount(0, $this->user1->active_group->fresh()->unsettledBills);
         
         $this->actingAs($this->user1)
-            ->json('delete', "/api/v1/settles/1")
+            ->json('delete', "/api/v1/settles/{$settle}")
             ->assertStatus(200);
         
         $this->assertCount(10, $this->user1->active_group->fresh()->unsettledBills);

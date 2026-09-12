@@ -56,8 +56,7 @@
             "php artisan optimize"
         ],
         "generate-openapi": [
-            "vendor/bin/openapi app/Http/Controllers/Api/v1 -o public/openapi_v1.json",
-            "vendor/bin/openapi app/Http/Controllers/Api/v2 -o public/openapi_v2.json"
+            "@php artisan scramble:export"
         ]
     },
     "extra": {

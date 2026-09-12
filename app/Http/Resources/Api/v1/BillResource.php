@@ -22,7 +22,7 @@ class BillResource extends JsonResource
             'group_id' => $this->group_id,
             'category_id' => $this->category_id,
             'settle_id' => $this->settle_id,
-            'paid_at' => $this->paid_at->format('Y-m-d'),
+            'paid_at' => $this->paid_at,
             'user' => $this->user->only('id', 'name'),
             'category' => new CategoryResource($this->category),
             'due_at' => $this->due_at,

@@ -8,6 +8,11 @@ use App\Models\User;
 
 class RegisterController extends Controller
 {
+    /**
+     * Register a new user account.
+     *
+     * @unauthenticated
+     */
     public function register(RegisterRequest $request)
     {
         User::create($request->validated());
