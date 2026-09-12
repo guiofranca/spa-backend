@@ -14,8 +14,10 @@
         "tymon/jwt-auth": "^2.0"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.7",
         "doctrine/annotations": "^2.0",
         "fakerphp/faker": "^1.9.1",
+        "laravel/boost": "^1.8",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^8.1",
